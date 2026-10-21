@@ -1,0 +1,33 @@
+{
+  "type": "aidl_interface",
+  "name": "android.hardware.thermal.intel",
+  "vendor_available": true,
+  "stability": "vintf",
+  "version": "2",
+  "frozen": true,
+  "backend": {
+    "cpp": {
+      "enabled": true
+    },
+    "java": {
+      "enabled": true
+    },
+    "rust": {
+      "enabled": true
+    }
+  },
+  "srcs": [
+    "android/hardware/thermal/CoolingDevice.aidl",
+    "android/hardware/thermal/CoolingType.aidl",
+    "android/hardware/thermal/ICoolingDeviceChangedCallback.aidl",
+    "android/hardware/thermal/IThermal.aidl",
+    "android/hardware/thermal/IThermalChangedCallback.aidl",
+    "android/hardware/thermal/Temperature.aidl",
+    "android/hardware/thermal/TemperatureThreshold.aidl",
+    "android/hardware/thermal/TemperatureType.aidl",
+    "android/hardware/thermal/ThrottlingSeverity.aidl"
+  ],
+  "imports": [
+    "android.hardware.thermal"
+  ]
+}

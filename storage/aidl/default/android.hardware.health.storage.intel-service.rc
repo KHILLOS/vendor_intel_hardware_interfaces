@@ -1,0 +1,9 @@
+service android.hardware.health.storage.intel-service /vendor/bin/hw/android.hardware.health.storage.intel-service
+    class hal
+    user vendor
+    group vendor
+    capabilities NET_ADMIN NET_RAW
+    ioprio rt 4
+
+on init
+    start android.hardware.health.storage.intel-service

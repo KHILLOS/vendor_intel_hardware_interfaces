@@ -1,0 +1,341 @@
+//
+// Copyright (C) 2024 The KhillOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+package {
+    default_applicable_licenses: ["vendor_intel_hardware_interfaces_license"],
+}
+
+license {
+    name: "vendor_intel_hardware_interfaces_license",
+    license_kinds: ["SPDX-license-identifier-Apache-2.0"],
+    conditions: ["notice"],
+    urls: ["http://www.apache.org/licenses/LICENSE-2.0"],
+}
+
+// ============================================================
+// Thermal AIDL Interface (already AIDL in BlissOS, update for AOSP 17)
+// ============================================================
+
+aidl_interface {
+    name: "android.hardware.thermal.intel",
+    vendor_available: true,
+    srcs: [
+        "thermal/aidl/android/hardware/thermal/*.aidl",
+    ],
+    stability: "vintf",
+    backend: {
+        cpp: {
+            enabled: true,
+        },
+        java: {
+            platform_apis: true,
+        },
+        rust: {
+            enabled: true,
+        },
+    },
+    versions_with_info: [
+        {
+            version: "1",
+            imports: [],
+        },
+        {
+            version: "2",
+            imports: [],
+        },
+    ],
+    frozen: true,
+}
+
+// Thermal AIDL implementation
+cc_library_shared {
+    name: "android.hardware.thermal.intel-impl",
+    vendor: true,
+    vndk: {
+        enabled: true,
+    },
+    relative_install_path: "hw",
+    srcs: [
+        "thermal/aidl/default/Thermal.cpp",
+    ],
+    shared_libs: [
+        "libbase",
+        "liblog",
+        "libutils",
+        "android.hardware.thermal.intel-V2-ndk",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+    ],
+    compile_multilib: "64",
+    arch: {
+        arm64: {
+            enabled: false,
+        },
+    },
+}
+
+cc_binary {
+    name: "android.hardware.thermal.intel-service",
+    vendor: true,
+    relative_install_path: "hw",
+    init_rc: ["thermal/aidl/default/android.hardware.thermal.intel-service.rc"],
+    vintf_fragments: ["thermal/aidl/default/android.hardware.thermal.intel-service.xml"],
+    srcs: ["thermal/aidl/default/service.cpp"],
+    shared_libs: [
+        "libbase",
+        "liblog",
+        "libbinder_ndk",
+        "android.hardware.thermal.intel-V2-ndk",
+        "android.hardware.thermal.intel-impl",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+    ],
+    compile_multilib: "64",
+    arch: {
+        arm64: {
+            enabled: false,
+        },
+    },
+}
+
+prebuilt_etc {
+    name: "android.hardware.thermal.intel-service.rc",
+    src: "thermal/aidl/default/android.hardware.thermal.intel-service.rc",
+    sub_dir: "etc/init",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "android.hardware.thermal.intel-service.xml",
+    src: "thermal/aidl/default/android.hardware.thermal.intel-service.xml",
+    sub_dir: "etc/vintf/manifest",
+    vendor: true,
+}
+
+// ============================================================
+// Health AIDL Interface (migrate from HIDL 2.1)
+// ============================================================
+
+aidl_interface {
+    name: "android.hardware.health.intel",
+    vendor_available: true,
+    srcs: [
+        "health/aidl/android/hardware/health/*.aidl",
+    ],
+    stability: "vintf",
+    backend: {
+        cpp: {
+            enabled: true,
+        },
+        java: {
+            platform_apis: true,
+        },
+        rust: {
+            enabled: true,
+        },
+    },
+    versions_with_info: [
+        {
+            version: "1",
+            imports: [],
+        },
+    ],
+    frozen: true,
+}
+
+// Health AIDL implementation
+cc_library_shared {
+    name: "android.hardware.health.intel-impl",
+    vendor: true,
+    vndk: {
+        enabled: true,
+    },
+    relative_install_path: "hw",
+    srcs: [
+        "health/aidl/default/HealthImpl.cpp",
+    ],
+    shared_libs: [
+        "libbase",
+        "libcutils",
+        "liblog",
+        "libutils",
+        "android.hardware.health.intel-V1-ndk",
+        "libbatterymonitor",
+        "libhealthloop.intel",
+        "libhealthd.intel",
+    ],
+    static_libs: [
+        "libfstab",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+    ],
+    compile_multilib: "64",
+    arch: {
+        arm64: {
+            enabled: false,
+        },
+    },
+}
+
+cc_binary {
+    name: "android.hardware.health.intel-service",
+    vendor: true,
+    relative_install_path: "hw",
+    init_rc: ["health/aidl/default/android.hardware.health.intel-service.rc"],
+    vintf_fragments: ["health/aidl/default/android.hardware.health.intel-service.xml"],
+    srcs: ["health/aidl/default/service.cpp"],
+    shared_libs: [
+        "libbase",
+        "liblog",
+        "libbinder_ndk",
+        "android.hardware.health.intel-V1-ndk",
+        "android.hardware.health.intel-impl",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+    ],
+    compile_multilib: "64",
+    arch: {
+        arm64: {
+            enabled: false,
+        },
+    },
+}
+
+prebuilt_etc {
+    name: "android.hardware.health.intel-service.rc",
+    src: "health/aidl/default/android.hardware.health.intel-service.rc",
+    sub_dir: "etc/init",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "android.hardware.health.intel-service.xml",
+    src: "health/aidl/default/android.hardware.health.intel-service.xml",
+    sub_dir: "etc/vintf/manifest",
+    vendor: true,
+}
+
+// ============================================================
+// Storage AIDL Interface (migrate from HIDL 1.0)
+// ============================================================
+
+aidl_interface {
+    name: "android.hardware.health.storage.intel",
+    vendor_available: true,
+    srcs: [
+        "storage/aidl/android/hardware/health/storage/*.aidl",
+    ],
+    stability: "vintf",
+    backend: {
+        cpp: {
+            enabled: true,
+        },
+        java: {
+            platform_apis: true,
+        },
+        rust: {
+            enabled: true,
+        },
+    },
+    versions_with_info: [
+        {
+            version: "1",
+            imports: [],
+        },
+    ],
+    frozen: true,
+}
+
+// Storage AIDL implementation
+cc_library_shared {
+    name: "android.hardware.health.storage.intel-impl",
+    vendor: true,
+    vndk: {
+        enabled: true,
+    },
+    relative_install_path: "hw",
+    srcs: [
+        "storage/aidl/default/Storage.cpp",
+    ],
+    shared_libs: [
+        "libbase",
+        "liblog",
+        "libutils",
+        "android.hardware.health.storage.intel-V1-ndk",
+        "android.hardware.health.intel-V1-ndk",
+        "libfstab",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+    ],
+    compile_multilib: "64",
+    arch: {
+        arm64: {
+            enabled: false,
+        },
+    },
+}
+
+cc_binary {
+    name: "android.hardware.health.storage.intel-service",
+    vendor: true,
+    relative_install_path: "hw",
+    init_rc: ["storage/aidl/default/android.hardware.health.storage.intel-service.rc"],
+    vintf_fragments: ["storage/aidl/default/android.hardware.health.storage.intel-service.xml"],
+    srcs: ["storage/aidl/default/service.cpp"],
+    shared_libs: [
+        "libbase",
+        "liblog",
+        "libbinder_ndk",
+        "android.hardware.health.storage.intel-V1-ndk",
+        "android.hardware.health.storage.intel-impl",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+    ],
+    compile_multilib: "64",
+    arch: {
+        arm64: {
+            enabled: false,
+        },
+    },
+}
+
+prebuilt_etc {
+    name: "android.hardware.health.storage.intel-service.rc",
+    src: "storage/aidl/default/android.hardware.health.storage.intel-service.rc",
+    sub_dir: "etc/init",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "android.hardware.health.storage.intel-service.xml",
+    src: "storage/aidl/default/android.hardware.health.storage.intel-service.xml",
+    sub_dir: "etc/vintf/manifest",
+    vendor: true,
+}
