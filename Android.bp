@@ -76,14 +76,14 @@ cc_binary {
 
 prebuilt_etc {
     name: "android.hardware.thermal.intel-service.rc",
-    src: "thermal/aidl/default/android.hardware.thermal.intel-service.rc",
+    src: "thermal/aidl/default/android.hardware.thermal@aidl-service.intel.rc",
     sub_dir: "etc/init",
     vendor: true,
 }
 
 prebuilt_etc {
     name: "android.hardware.thermal.intel-service.xml",
-    src: "thermal/aidl/default/android.hardware.thermal.intel-service.xml",
+    src: "thermal/aidl/default/android.hardware.thermal@aidl-intel.xml",
     sub_dir: "etc/vintf/manifest",
     vendor: true,
 }
