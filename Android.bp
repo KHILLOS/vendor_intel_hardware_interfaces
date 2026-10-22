@@ -50,8 +50,8 @@ cc_binary {
     name: "android.hardware.thermal.intel-service",
     vendor: true,
     relative_install_path: "hw",
-    init_rc: ["thermal/aidl/default/android.hardware.thermal.intel-service.rc"],
-    vintf_fragments: ["thermal/aidl/default/android.hardware.thermal.intel-service.xml"],
+    init_rc: ["thermal/aidl/default/android.hardware.thermal@aidl-service.intel.rc"],
+    vintf_fragments: ["thermal/aidl/default/android.hardware.thermal@aidl-intel.xml"],
     srcs: ["thermal/aidl/default/main.cpp"],
     shared_libs: [
         "libbase",
